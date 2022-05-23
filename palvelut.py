@@ -7,40 +7,31 @@ class Asiakas:
     __asiakasnro: List[int]
     __ika: int
 
-    def __init__(self, nimi, ika) -> None:
+    def __init__(self, nimi, age) -> None:
         self.__nimi = nimi
-        self.__ika = ika
+        self.__age = age
         self.__luo_nro()
 
-    @property
-    def nimi(self):
+    def set_nimi(self, nimi):
+        if nimi == False:
+            raise ValueError("Give a new name")
+        if nimi == True:
+            self_nimi = nimi
+
+    def get_nimi(self):
         return self.__nimi
+    
+    def set_age(self,newage):
+        if newage == False:
+            raise ValueError("Give a new age")
+        if newage == True:
+            self.__age = newage
 
-    @nimi.setter
-    def nimi(self, nimi: str):
-        if(nimi):
-            self.__nimi = nimi
-        else:
-            raise Exception("Sorry, nimi is required!")
-
-    @property
-    def ika(self):
-        return self.__ika
-
-    @ika.setter
-    def ika(self, ika: int):
-        if(ika):
-            self.__ika = ika
-        else:
-            raise Exception("Sorry, ika is required!")
-
-    @property
-    def asiakasnro(self):
+    def get_age(self):
+        return self.__age
+        
+    def get_asiakasnro(self):
         return f"{str(self.__asiakasnro[0:2])}-{self.__asiakasnro[2:5]}-{self.__asiakasnro[5:9]}"
-
-    @asiakasnro.setter
-    def asiakasnro(self, asiaksnro: list[int]):
-        self.__asiakasnro = asiaksnro
 
     def _randfixed_digit(self, digits):
         return ''.join(["{}".format(random.randint(0, 9)) for num in range(0, digits)])
@@ -55,37 +46,39 @@ class Palvelu():
     __asiakkaat: List[Asiakas]
 
     def __init__(self, tuotenimi: str):
-        super()
         self.tuotenimi = tuotenimi
         self.__asiakkaat = []
 
-    def _luo_asiakarivi(self, asiakas: Asiakas) -> str:
-        return asiakas.nimi
+    def _luo_asiakasrivi(self, asiakas: Asiakas) -> str:
+        text = f"{asiakas.get_nimi()} {asiakas.get_asiakasnro()} on {asiakas.get_age()}-vuotias"
+        print(text)
 
     def lisaa_asiakas(self, asiakas: Asiakas):
-        if(asiakas):
-            self.__asiakkaat.append(asiakas)
-            return f"{asiakas.nimi} ({asiakas.asiakasnro}) is {asiakas.ika} years old"
-
+        if(asiakas == False):
+            raise ValueError("Sorry, client is required!")
         else:
-            raise Exception("Sorry, client is required!")
+            self.__asiakkaat.append(asiakas)
+            
 
     def poista_asiakas(self, asiakas: Asiakas):
         try:
-            self.__asiakkaat.remove(asiakas)
+            if asiakas == False:
+                raise ValueError("Sorry, client is required!")
+            else:
+                self.__asiakkaat.remove(asiakas)
         except:
-            print("Client not found")
             pass
 
     def tulosta_asiakkaat(self):
-        pass
+        for asiakas in self.__asiakkaat:
+            self._luo_asiakasrivi(asiakas)
 
 
 class ParempiPalvelu(Palvelu):
     __edut: List[str]
 
     def __init__(self, tuotenimi):
-        super(ParempiPalvelu, self).__init__(tuotenimi)
+        super().__init__(tuotenimi)
         self.__edut = []
 
     def lisaa_etu(self, a: str):
@@ -96,14 +89,16 @@ class ParempiPalvelu(Palvelu):
 
     def poista_etu(self, a: str):
         try:
-            self.__edut.remove(a)
+            if a == False:
+                raise ValueError("Sorry, edut is required!")
+            else:
+                self.__edut.remove(a)
         except:
-            print("edut not found")
             pass
 
     def tulosta_edut(self):
-        pass
+        for etu in self.__edut:
+            print(etu)
 
 # p1 = Asiakas("Habib",18)
 # # print(p1._luo_nro())
-
