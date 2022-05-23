@@ -104,6 +104,6 @@ class ParempiPalvelu(Palvelu):
     def tulosta_edut(self):
         pass
 
-# p1 = Asiakas("AHmad",24)
+# p1 = Asiakas("Habib",18)
 # # print(p1._luo_nro())
 
